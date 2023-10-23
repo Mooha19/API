@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/openai"></script>
+    <title>Sistema de Autodiagnóstico de Síntomas</title>
+</head>
+<body>
+    <header>
+        <h1>Sistema de Autodiagnóstico de Síntomas</h1>
+    </header>
+    <main>
+        <section class="symptom-input">
+            <h2>Ingrese sus síntomas:</h2>
+            <form id="symptom-form">
+                <label for="symptoms">Síntomas:</label>
+                <textarea id="symptoms" name="symptoms" rows="4" cols="50" required></textarea>
+                <button type="button" onclick="realizarDiagnostico()">Autodiagnosticar</button>
+            </form>
+        </section>
+        <section class="diagnosis">
+            <h2>Diagnóstico:</h2>
+            <div id="diagnosis-result"></div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2023 Sistema de Autodiagnóstico de Síntomas</p>
+    </footer>
+
+    <script>
+        function realizarDiagnostico() {
+            const apiKey = "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";
+            const symptoms = document.getElementById("symptoms").value;
+    
+            // Configurar la solicitud a la API de ChatGPT
+            fetch("https://api.openai.com/v1/chat/completions", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${apiKey}`,
+                },
+                body: JSON.stringify({
+                    model: "gpt-3.5-turbo",
+                    messages: [
+                        { role: "system", content: "El usuario está solicitando un diagnóstico." },
+                        { role: "user", content: symptoms },
+                    ],
+                }),
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                const diagnosisResult = data.choices[0].message.content;
+                document.getElementById("diagnosis-result").innerText = diagnosisResult;
+            })
+            .catch((error) => {
+                console.error("Error al comunicarse con la API de ChatGPT:", error);
+            });
+        }
+    </script>
+</body>
+</html>
