@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Sistema de Autodiagnóstico de Síntomas</title>
+</head>
+<body>
+    <header>
+        <h1>Sistema de Autodiagnóstico de Síntomas</h1>
+    </header>
+    <main>
+        <section class="identification-input">
+            <h2>Ingrese sus datos de identificación:</h2>
+            <form id="identification-form">
+                <label for="username">Usuario:</label>
+                <input type="text" id="username" name="username" required>
+                <label for="password">Contraseña:</label>
+                <input type="password" id="password" name="password" required>
+                <button type="button" onclick="realizarIdentificacion()">Identificar</button>
+            </form>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2023 Sistema de Autodiagnóstico de Síntomas</p>
+    </footer>
+
+    <script>
+        function realizarIdentificacion() {
+            const apiKey = "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";
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+
+            // Realizar autenticación (puedes personalizar esto)
+            if (username === "usuario" && password === "contraseña") {
+                // Redirigir a la página principal
+                window.location.href = "pagina_principal.html";
+            } else {
+                // Mostrar mensaje de error
+                alert("Credenciales incorrectas. Por favor, inténtelo de nuevo.");
+            }
+        }
+    </script>
+</body>
+</html>
