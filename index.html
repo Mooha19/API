@@ -18,6 +18,7 @@
                 <label for="symptoms">Síntomas:</label>
                 <textarea id="symptoms" name="symptoms" rows="4" cols="50" required></textarea>
                 <button type="button" onclick="realizarDiagnostico()">Autodiagnosticar</button>
+                <div class="loading-spinner"></div>
             </form>
         </section>
         <section class="diagnosis">
@@ -31,9 +32,13 @@
 
     <script>
         function realizarDiagnostico() {
-            const apiKey = "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";
+            // Mostrar spinner
+            const spinner = document.querySelector(".loading-spinner");
+            spinner.style.display = "block";
+
+            const apiKey = "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";
             const symptoms = document.getElementById("symptoms").value;
-    
+
             // Configurar la solicitud a la API de ChatGPT
             fetch("https://api.openai.com/v1/chat/completions", {
                 method: "POST",
@@ -42,9 +47,9 @@
                     "Authorization": `Bearer ${apiKey}`,
                 },
                 body: JSON.stringify({
-                    model: "gpt-3.5-turbo",
+                    model: "gpt-4",
                     messages: [
-                        { role: "system", content: "El usuario está solicitando un diagnóstico en respuesta corta." },
+                        { role: "system", content: "El médico está solicitando un diagnóstico en respuesta corta. Formato: Posible diagnóstico: RESPUESTA" },
                         { role: "user", content: symptoms },
                     ],
                 }),
@@ -53,11 +58,24 @@
             .then((data) => {
                 const diagnosisResult = data.choices[0].message.content;
                 document.getElementById("diagnosis-result").innerText = diagnosisResult;
+
+                // Verificar si la respuesta contiene "COVID-19"
+                if (/COVID-19/i.test(diagnosisResult)) {
+                    setTimeout(function () {
+                        // Mostrar la ventana emergente
+                        alert("¡Se ha detectado COVID-19! Antes de comunicarse con su médico, se recomienda que realice un test de antígenos.");
+                    }, 1000);
+                }
             })
             .catch((error) => {
                 console.error("Error al comunicarse con la API de ChatGPT:", error);
+            })
+            .finally(() => {
+                //ocultar spinner
+                spinner.style.display = "none";
             });
         }
     </script>
 </body>
 </html>
+
