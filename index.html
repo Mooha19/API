@@ -31,7 +31,7 @@
 
     <script>
         function realizarDiagnostico() {
-            const apiKey = "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";
+            const apiKey = "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";
             const symptoms = document.getElementById("symptoms").value;
     
             // Configurar la solicitud a la API de ChatGPT
@@ -44,7 +44,7 @@
                 body: JSON.stringify({
                     model: "gpt-3.5-turbo",
                     messages: [
-                        { role: "system", content: "El usuario está solicitando un diagnóstico." },
+                        { role: "system", content: "El usuario está solicitando un diagnóstico en respuesta corta." },
                         { role: "user", content: symptoms },
                     ],
                 }),
