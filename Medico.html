@@ -6,6 +6,8 @@
     <style>
         .button-container {
             text-align: center;
+            display: inline-block;
+            margin: 60px;
         }
 
         .button-container img {
@@ -13,6 +15,11 @@
             width: 100px; /* Establece el ancho deseado en píxeles */
             height: auto; /* La altura se ajustará automáticamente para mantener la proporción */
             margin: 0 auto 10px;
+        }
+        .logout-button {
+            position: fixed;
+            top: 10px; /* Ajusta la posición vertical según tus preferencias */
+            right: 10px; /* Ajusta la posición horizontal según tus preferencias */
         }
     </style>
 </head>
@@ -32,11 +39,25 @@
         <div class="button-container">
             <img src="C:\Users\kasme\OneDrive\Escritorio\api_trabajo\API-main\app\img\auto.png" alt="Icono Autodiagnósticos">
             <button id="verAutodiagnosticos">Ver Autodiagnósticos</button>
+            <div class="user-number">
+                <label for="userNumber">Número de Usuario:</label>
+                <input type="text" id="userNumber" name="userNumber">
+            </div>
         </div>
         <div class="button-container">
             <img src="C:\Users\kasme\OneDrive\Escritorio\api_trabajo\API-main\app\img\ver_citas.jpg" alt="Icono Pacientes">
             <button id="verPacientes">Ver Pacientes</button>
         </div>
     </main>
+    <button class="logout-button">Cerrar Sesión</button>
+    <script>
+        document.getElementById("verAutodiagnosticos").addEventListener("click", function() {
+            var userNumber = document.getElementById("userNumber").value;
+            if (userNumber !== "") {
+                // Redirige a la nueva página con el número de usuario como parámetro
+                window.location.href = "Lista_Autodiagnostico.html?userNumber=" + userNumber;
+            }
+        });
+    </script>
 </body>
 </html>
