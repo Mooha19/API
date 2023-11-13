@@ -4,28 +4,86 @@
     <meta charset="UTF-8">
     <title>Mi Página Web</title>
     <style>
+        header img {
+        margin-right:25px; /* Ajusta el margen derecho según tus necesidades */
+        margin-left: 25px; /* Ajusta el margen izquierdo según tus necesidades */
+        width: 85px;
+}
+
         .button-container {
             text-align: center;
             display: inline-block;
-            margin: 60px;
+            margin: 70px;
         }
 
         .button-container img {
             display: block;
-            width: 100px; /* Establece el ancho deseado en píxeles */
+            width: 85px; /* Establece el ancho deseado en píxeles */
             height: auto; /* La altura se ajustará automáticamente para mantener la proporción */
-            margin: 0 auto 10px;
+            margin: 0 auto 25px;
         }
         .logout-button {
             position: fixed;
-            top: 10px; /* Ajusta la posición vertical según tus preferencias */
-            right: 10px; /* Ajusta la posición horizontal según tus preferencias */
+            top: 10px; /* Ajusta la posición vertical según sea necesario */
+            right: 10px; /* Ajusta la posición horizontal según sea necesario */
+            background-color: #e74c3c; /* Color de fondo */
+            color: #fff; /* Color del texto */
+            border: none; /* Sin borde */
+            border-radius: 5px; /* Bordes redondeados */
+            padding: 10px 20px; /* Espaciado interno */
+            font-size: 16px; /* Tamaño de fuente */
+            cursor: pointer; /* Cambio de cursor al pasar el mouse */
+            transition: background-color 0.3s ease; /* Transición de color de fondo al pasar el mouse */
+
+            /* Sombra suave */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
+
+/* Cambiar el color de fondo al pasar el mouse */
+        .logout-button:hover {
+            background-color: #c0392b;
+        }
+        .footer-image {
+            position: fixed;
+            bottom: 0;
+            left: 10%;
+            transform: translateX(-50%);
+            width: 250px; /* Ajusta el tamaño de la imagen según tus necesidades */
+        }
+        .footer-image-right {
+            position: fixed;
+            bottom: 0;
+            left: 90%;
+            transform: translateX(-50%);
+            width: 150px; /* Ajusta el tamaño de la imagen según tus necesidades */
+        }
+        .footer-image-center-left{
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px; /* Ajusta el tamaño de la imagen según tus necesidades */
+
+        }
+        /*.footer-image-center-right{
+            position: fixed;
+            bottom: 0;
+            left: 60%;
+            transform: translateX(-50%);
+            width: 200px; /* Ajusta el tamaño de la imagen según tus necesidades */
+
+        
+        
+        
+        
+
+
     </style>
 </head>
 <body>
     <header>
-        <h1>Hola, bienvenido</h1>
+        <h1 style="display: inline; margin-right: 400px;">Bienvenido Sr/Sra</h1>
+        
     </header>
     <main>
         <div class="button-container">
@@ -37,27 +95,42 @@
             <button id="citarConEspecialista">Citar con Especialista</button>
         </div>
         <div class="button-container">
-            <img src="C:\Users\kasme\OneDrive\Escritorio\api_trabajo\API-main\app\img\auto.png" alt="Icono Autodiagnósticos">
-            <button id="verAutodiagnosticos">Ver Autodiagnósticos</button>
             <div class="user-number">
-                <label for="userNumber">Número de Usuario:</label>
-                <input type="text" id="userNumber" name="userNumber">
+                <img src="C:\Users\kasme\OneDrive\Escritorio\api_trabajo\API-main\app\img\auto.png" alt="Icono Autodiagnósticos">
+                <label for="numeroUsuario">Número de Usuario:</label>
+                <input type="text" id="numeroUsuario" name="numeroUsuario">
             </div>
+                <button id="verAutodiagnosticos">Ver Autodiagnósticos</button>
         </div>
         <div class="button-container">
-            <img src="C:\Users\kasme\OneDrive\Escritorio\api_trabajo\API-main\app\img\ver_citas.jpg" alt="Icono Pacientes">
-            <button id="verPacientes">Ver Pacientes</button>
+            <div class="user-number2">
+                <img src="C:\Users\kasme\OneDrive\Escritorio\api_trabajo\API-main\app\img\HistorialPaciente.png" alt="Icono Pacientes">                <label for="numeroUsuario">Número de Usuario:</label>
+                <input type="text" id="numeroUsuario" name="numeroUsuario">
+            </div>
+                <button id="verPacientes">Ver Historial Pacientes</button>
         </div>
+        
+
     </main>
-    <button class="logout-button">Cerrar Sesión</button>
+    
+    <img class="footer-image-center-left" src="C:\Users\kasme\OneDrive\Escritorio\api_trabajo\API-main\app\img\DS.png" alt="Ban de Osakidetza Centro" >
+    <img class="footer-image-right" src="C:\Users\kasme\OneDrive\Escritorio\api_trabajo\API-main\app\img\Osakidetza_lgo.png" alt="Pie de página Derecha">
+    <button class="logout-button" id="logout-button">Cerrar Sesión</button>
+
+    <img class="footer-image" src="C:\Users\kasme\OneDrive\Escritorio\api_trabajo\API-main\app\img\Osakidetza_MedicoAbajo.png" alt="Pie de página">
     <script>
         document.getElementById("verAutodiagnosticos").addEventListener("click", function() {
-            var userNumber = document.getElementById("userNumber").value;
+            var userNumber = document.getElementById("numeroUsuario").value;
             if (userNumber !== "") {
                 // Redirige a la nueva página con el número de usuario como parámetro
                 window.location.href = "Lista_Autodiagnostico.html?userNumber=" + userNumber;
             }
         });
+        document.getElementById("logout-button").addEventListener("click", function() {
+        window.location.href = "Untitled-1.html";
+    });
+</script>
+
     </script>
 </body>
 </html>
