@@ -1,14 +1,12 @@
 function comprobardatos() { //Permite comprobar si todos los elementos del registro están añadidos y son correctos
     let name = document.getElementById("controlName").value;
-    let surname = document.getElementById("controlSurname").value;
-    let id = document.getElementById("controlDNI").value;
+    let surname = document.getElementById("controlSurname").value;    
     let tel = document.getElementById("controlTel").value;
     let fecha = document.getElementById("controlFecha").value;
-    let email = document.getElementById("controlEmail").value;
+    let id = document.getElementById("controlId").value;
     let contra = document.getElementById("controlPass").value;
     let contraRepeat = document.getElementById("controlPassRepeat").value;
-    let bank = document.getElementById("controlBankAccount").value;
-    let username = document.getElementById("controlUsername").value;
+    
     let e = false;
 
     eliminarHijos(); //Se eliminan los mensajes de error para que no se amontonen
@@ -31,51 +29,30 @@ function comprobardatos() { //Permite comprobar si todos los elementos del regis
         document.getElementById("c2").appendChild(er)
         e= true
     }
-    if (!esCorrecto(id)) {
-        var er = document.createElement("p")
-        er.setAttribute('class', 'text-danger')
-        var t = document.createTextNode("El DNI no es correcto")
-        er.setAttribute('id', 'erDNI')
-        er.appendChild(t)
-        document.getElementById("c3").appendChild(er)
-        e= true
-    }
-
-    if (!esFecha(fecha)) {
-        var er = document.createElement("p")
-        er.setAttribute('class', 'text-danger')
-        var t = document.createTextNode("Fecha incorrecta")
-        er.setAttribute('id', 'eFecha')
-        er.appendChild(t)
-        document.getElementById("c5").appendChild(er)
-        e= true
-    }
-
     if (!esTel(tel)) {
         var er = document.createElement("p")
         er.setAttribute('class', 'text-danger')
         var t = document.createTextNode("Número incorrecto")
         er.setAttribute('id', 'eTel')
         er.appendChild(t)
+        document.getElementById("c3").appendChild(er)
+        e= true
+    }
+   
+    if (!esFecha(fecha)) {
+        var er = document.createElement("p")
+        er.setAttribute('class', 'text-danger')
+        var t = document.createTextNode("Fecha incorrecta")
+        er.setAttribute('id', 'eFecha')
+        er.appendChild(t)
         document.getElementById("c4").appendChild(er)
         e= true
     }
-
-    if (!esCorreo(email)) {
+    if (!contieneSoloNumeros(id)) {
         var er = document.createElement("p")
         er.setAttribute('class', 'text-danger')
-        var t = document.createTextNode("Correo incorrecto")
-        er.setAttribute('id', 'eCor')
-        er.appendChild(t)
-        document.getElementById("c6").appendChild(er)
-        e= true
-    }
-
-    if (username.length == 0 || username.length > 9) {
-        var er = document.createElement("p")
-        er.setAttribute('class', 'text-danger')
-        var t = document.createTextNode("El nombre de usuario tiene que tener como máximo 9 caracteres")
-        er.setAttribute('id', 'eUsername')
+        var t = document.createTextNode("La tarjeta sanitaria solo puede tener números")
+        er.setAttribute('id', 'erId')
         er.appendChild(t)
         document.getElementById("c7").appendChild(er)
         e= true
@@ -99,57 +76,11 @@ function comprobardatos() { //Permite comprobar si todos los elementos del regis
         er.appendChild(t)
         document.getElementById("c9").appendChild(er)
         e = true
-    }
-
-    if (!esCuenta(bank)) {
-        var er = document.createElement("p")
-        er.setAttribute('class', 'text-danger')
-        var t = document.createTextNode("Debes ingresar una cuenta bancaria real")
-        er.setAttribute('id', 'eBanca')
-        er.appendChild(t)
-        document.getElementById("c10").appendChild(er)
-        e = true
-    }
+    }   
 
     if (!e) document.reg.submit(); //Si no existe ningún error se hace submit del form
 }
-function cargarProvincias() {
-    var pais = document.getElementById('pais').value;
-    var provinciaSelect = document.getElementById('provincia');
-    var provinciaDiv = document.getElementById('provinciaDiv');
 
-    // Lógica para cargar las provincias desde la base de datos según el país seleccionado
-    // Puedes adaptar esta lógica según tu estructura de base de datos
-    provinciaSelect.innerHTML = '<option value="" disabled selected>Selecciona una provincia</option>' +
-        '<option value="alava">Álava</option>' +
-        '<option value="bizkaia">Bizkaia</option>' +
-        '<option value="gipuzkoa">Gipuzkoa</option>';
-    provinciaDiv.style.display = 'block';    
-
-    cargarCiudades();  // Cargar las ciudades según la provincia seleccionada
-}
-
-function cargarCiudades() {
-    var provincia = document.getElementById('provincia').value;
-    var ciudadSelect = document.getElementById('ciudad');
-    var ciudadDiv = document.getElementById('ciudadDiv');
-
-    // Hacer una solicitud AJAX para obtener las ciudades desde la base de datos según la provincia seleccionada
-    if (provincia) {
-        var xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                ciudadSelect.innerHTML = this.responseText;
-                ciudadDiv.style.display = 'block';
-            }
-        };
-        xmlhttp.open("GET", "obtener_ciudades.php?provincia=" + provincia, true);
-        xmlhttp.send();
-    } else {
-        ciudadSelect.innerHTML = '<option value="" disabled selected>Selecciona una ciudad</option>';
-        ciudadDiv.style.display = 'none';
-    }
-}
 
 function eliminarHijos() {
     for (var i =1; i< 11; i++) {
@@ -176,25 +107,11 @@ function contieneNumeros(pal) {
     }
     
 }
-
-function esCorrecto (id) { //Comprobación del DNI mediante algoritmo
-    if (id.length == 0) {
-        return false;
-    } else {
-        var b = true;
-        var eq = ['T','R','W','A','G','M','Y','F','P','D','X','B','N','J','Z','S','Q','V','H','L','C','K','E']
-        if (id != "") {
-            if (id.length != 9) b = false;
-            else {
-                let nums = parseInt(id.substring(0,8))
-                if (eq[nums % 23] != id.charAt(8)) b = false
-            }
-        }    
-        return b
-    }
-    
-
+function contieneSoloNumeros(str) {
+    return /^[0-9]+$/.test(str);
 }
+
+
 
 function esFecha(f) {
     if (f.length == 0) {
@@ -218,28 +135,6 @@ function esTel(t) {
     }
     return b
 }
-
-function esCorreo(em) {
-    if (em.length == 0) {
-        return false
-    } else {
-        re=/^([\da-z_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/ //Expresión regular para comprobar que es un correo correcto
-        if (re.exec(em)) 
-            return true;
-        else
-            return false;
-    }
-}
-
-function esCuenta(bank) {
-    re = /^(?:(?:IT|SM)\d{2}[A-Z]\d{22}|CY\d{2}[A-Z]\d{23}|NL\d{2}[A-Z]{4}\d{10}|LV\d{2}[A-Z]{4}\d{13}|(?:BG|BH|GB|IE)\d{2}[A-Z]{4}\d{14}|GI\d{2}[A-Z]{4}\d{15}|RO\d{2}[A-Z]{4}\d{16}|KW\d{2}[A-Z]{4}\d{22}|MT\d{2}[A-Z]{4}\d{23}|NO\d{13}|(?:DK|FI|GL|FO)\d{16}|MK\d{17}|(?:AT|EE|KZ|LU|XK)\d{18}|(?:BA|HR|LI|CH|CR)\d{19}|(?:GE|DE|LT|ME|RS)\d{20}|IL\d{21}|(?:AD|CZ|ES|MD|SA)\d{22}|PT\d{23}|(?:BE|IS)\d{24}|(?:FR|MR|MC)\d{25}|(?:AL|DO|LB|PL)\d{26}|(?:AZ|HU)\d{27}|(?:GR|MU)\d{28})$/i;
-    //Expresión regular para comprobar que es un IBAN
-    if (re.exec(bank))
-        return true;
-    else
-        return false;
-}
-
 function esContraSegura(contra) {
     re = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[.$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,15}[^'\s]/
     if (re.exec(contra))
@@ -247,6 +142,67 @@ function esContraSegura(contra) {
     else
         return false;
 }
+
+////////////////////////////Funciones registro//////////////////////////////////////////
+function cargarCiudades() {
+    var provincia = document.getElementById('provincia').value;
+    fetch('server/obtener_ciudades.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: 'provincia=' + encodeURIComponent(provincia),
+    })
+    .then(response => response.json())
+    .then(data => {
+        var selectCiudad = document.getElementById('ciudad');
+        selectCiudad.innerHTML = '<option value="">Selecciona una ciudad</option>';
+
+        data.forEach(ciudad => {
+            var option = document.createElement('option');
+            option.value = ciudad;
+            option.text = ciudad;
+            selectCiudad.appendChild(option);
+        });
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+function buscarAmbulatorioYMedico() {
+    var ciudadInput = document.getElementById('ciudad');
+    var ambulatorioField = document.getElementById('ambulatorio');
+    var medicoField = document.getElementById('medico');
+
+    // Obtener la ciudad ingresada
+    var ciudad = ciudadInput.value;
+
+    // Realizar una solicitud al servidor para obtener ambulatorio y médico
+    fetch('server/obtener_ambulatorio_medico.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: 'ciudad=' + encodeURIComponent(ciudad),
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Error en la solicitud. Código: ' + response.status);
+        }
+        return response.json();
+    })
+    .then(data => {
+        // Mostrar ambulatorio y médico en los campos respectivos
+        ambulatorioField.value = data.ambulatorio;
+        medicoField.value = data.medico;
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+
+
 
 /////////////////////////////////// Funciones individuales para cambiarDatos.php ///////////////////////////////////
 
