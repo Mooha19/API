@@ -18,7 +18,7 @@ if ($_SESSION['ult_actividad'] < time() - $_SESSION['expira']) {
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Sanitarios</title>
+    <title>Usuarios</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' href='../css/main.css'>
     <link rel='stylesheet' type='text/css' media='screen' href='../css/second.css'>
@@ -72,7 +72,7 @@ if ($_SESSION['ult_actividad'] < time() - $_SESSION['expira']) {
         </div>
         <div class="fila">
             <button onclick="location.href='autodiagnostico.php'">Autodiagnostico</button>
-            <button onclick="location.href='historial.php'">Historial</button>
+            <button onclick="location.href='consultar_autodiagnosticos.php'">Consultar Autodiagnosticos</button>
         </div>
     </div>    
     </main>

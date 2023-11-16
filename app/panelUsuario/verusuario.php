@@ -8,57 +8,72 @@ if ($_SESSION['ult_actividad'] < time() - $_SESSION['expira']) {
     $_SESSION['ult_actividad'] = time(); //SETEAMOS NUEVO TIEMPO DE ACTIVIDAD
     $db = mysqli_connect('localhost', 'admin', 'test', 'medicina');
     $user = $_SESSION['user'];
-    $user_check_query = "SELECT * FROM cita WHERE tarjeta = '$user';";
-    $res = mysqli_query($db, $user_check_query);
-    $usuario = mysqli_fetch_assoc($res);
+    $hoy = date("Y-m-d");   
 
     //Obtener nombre del usuario
-    $citas_query = "SELECT citas.*,sanitario.nombre,sanitario.especialidad,sanitario.tipo_trabajo,sanitario.trabajo FROM citas WHERE tarjeta = '$user' INNER JOIN
-    sanitario ON citas.colegiado = sanitario.colegiado;";    
-    $res = mysqli_query($db, $citas_query);
-    $citas = array();
-    if ($res->num_rows > 0) {
-        while ($row = $res->fetch_assoc()) {
-            $citas[] = $row;
-        }
-    };
-    echo '<script>';
-    echo 'var citas = ' . json_encode($citas) . ';';
-    echo '</script>';
+    $consulta = "SELECT citas.*, sanitario.nombre, sanitario.especialidad, sanitario.tipo_trabajo, sanitario.trabajo FROM citas INNER JOIN sanitario ON citas.colegiado = sanitario.colegiado WHERE citas.tarjeta = '$user' AND citas.fecha >= '$hoy'";
+  
+    $resultado = $db->query($consulta);
+    $db->close();
+
 }
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Mis Citas</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='../css/main.css'>
-    <link rel='stylesheet' type='text/css' media='screen' href='../css/second.css'>
-    <link rel="icon" href='img/logo.ico' type ='image/x-icon'>
-    <script src='../js/bootstrap.bundle.js'></script>
-    <script src = 'js/vercitas.js'></script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis  Citas</title>
+    <script src='js/vercitas.js'></script>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
 </head>
 <body>
-    <div class= "container text-center mt-5">
-        <h1>Mis Citas</h1>
-    </div>
-    <div class = "contenedorRegistro margenRegistro p-5 bordeRegistro rounded-3">
-        <h1>Agenda Médica</h1>
-            <table id="tabla-citas">
-            <thead>
-                <tr>
-                    <th>Día</th>
-                    <th>Tipo</th>
-                    <th>Sanitario</th>
-                    <th>Especialidad</th>
-                    <th>Lugar</th>
-                    <th>Eliminar</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-            </table>
+    <h1>Agenda de Citas </h1>
+
+    <?php
+        if ($resultado->num_rows > 0) {
+            echo "<table>";
+            echo "<tr>
+                <th>Día</th>
+                <th>Hora</th>
+                <th>Tipo</th>
+                <th>Sanitario</th>
+                <th>Especialidad</th>
+                <th>Lugar</th>
+            </tr>";
+
+            while ($fila = $resultado->fetch_assoc()) {
+                echo "<tr>
+                    <td>" . $fila['fecha'] . "</td>
+                    <td>" . $fila['hora'] . "</td>
+                    <td>" . $fila['tipo'] . "</td>
+                    <td>" . $fila['nombre'] . "</td>
+                    <td>" . $fila['especialidad'] . "</td>
+                    <td>" . $fila['tipo_trabajo'] . ' ' . $fila['trabajo'] ."</td>
+                    <td class='action-buttons'>
+                        <button onclick='eliminar_cita(" . $fila['id'] . ")'>Eliminar Cita</button>
+                        
+            </td>
+        </tr>";
+            }
+
+            echo "</table>";
+        } else {
+            echo "<p>No tiene citas .</p>";
+        }
+    ?>
     </div>
         <div class="contenedorRegistro margenVolver">
             <a class="textLinks" href="index.php"> < Volver a inicio</a>

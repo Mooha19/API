@@ -1,3 +1,19 @@
+<?php
+session_start();
+if ($_SESSION['ult_actividad'] < time() - $_SESSION['expira']) {
+    session_unset();    
+    session_destroy();
+} else {
+    $_SESSION['ult_actividad'] = time(); //SETEAMOS NUEVO TIEMPO DE ACTIVIDAD
+    $db = mysqli_connect('localhost', 'admin', 'test', 'medicina');
+    $user = $_SESSION['user'];
+    $user_check_query = "SELECT * FROM usuario WHERE tarjeta = '$user';";
+    $res = mysqli_query($db, $user_check_query);
+    $usuario = mysqli_fetch_assoc($res);
+    
+    
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -36,7 +52,7 @@
             const spinner = document.querySelector(".loading-spinner");
             spinner.style.display = "block";
 
-            const apiKey = "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";
+            const apiKey = "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";
             const symptoms = document.getElementById("symptoms").value;
 
             // Configurar la solicitud a la API de ChatGPT
@@ -66,6 +82,20 @@
                         alert("¡Se ha detectado COVID-19! Antes de comunicarse con su médico, se recomienda que realice un test de antígenos.");
                     }, 1000);
                 }
+                fetch('server/insertarautodiagnostico.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `symptoms=${encodeURIComponent(symptoms)}&result=${encodeURIComponent(diagnosisResult)}&colegiado=${encodeURIComponent('<?php echo $usuario['cabecera']; ?>')}&tarjeta=${encodeURIComponent('<?php echo $user; ?>')}`,
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Datos guardados en la base de datos:', data);
+                })
+                .catch(error => console.error('Error al guardar datos en la base de datos:', error));
+
+
             })
             .catch((error) => {
                 console.error("Error al comunicarse con la API de ChatGPT:", error);
@@ -74,6 +104,7 @@
                 //ocultar spinner
                 spinner.style.display = "none";
             });
+
         }
     </script>
 </body>
