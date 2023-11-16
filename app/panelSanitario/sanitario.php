@@ -1,5 +1,17 @@
-<?php 
+<?php
 session_start();
+if ($_SESSION['ult_actividad'] < time() - $_SESSION['expira']) {
+    session_unset();
+    
+    session_destroy();
+} else {
+    $_SESSION['ult_actividad'] = time(); //SETEAMOS NUEVO TIEMPO DE ACTIVIDAD
+    $db = mysqli_connect('localhost', 'admin', 'test', 'medicina');
+    $user = $_SESSION['user'];
+    $user_check_query = "SELECT * FROM sanitario WHERE colegiado = '$user';";
+    $res = mysqli_query($db, $user_check_query);
+    $sanitario = mysqli_fetch_assoc($res);
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -31,45 +43,44 @@ session_start();
 
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" href="#">Edición para Sanitarios</a>              
+                            <a class="nav-link active" href="#">Edición para Sanitarios </a>              
 
                         </li>
                       
                     </ul>              
-                    <button onclick="location.href='inicioSesionSanitario.php'" type="button" class="btn btn-outline-dark me-2">Proyectos de Investigación</button>
+                    <button onclick="location.href='../server/cerrar.php'" type="button" class="btn btn-outline-dark me-2">Cerrar Sesión</button>
                    
-                    <button onclick="location.href='registro.php'" type="button" class="btn btn-dark">Editar Perfil</button>
+                    <button onclick="location.href='registro.php'" type="button" class="btn btn-dark">Editar Datos</button>
                    
                 </div>
             </div>
         </nav>
-    </div>
-    
+    </div>    
     <main>
-    <div class="image-container">
-            <img src="ruta/imagen1.jpg" alt="Imagen 1">
-            <p>Texto para la imagen 1</p>
-            <button onclick="alert('Botón 1')">Botón 1</button>
+    <div class="contenedor">
+        <div class="fila">
+            <img src="../img/ver_citas.jpg" alt="Imagen 1">
+            <img src="../img/pedir.png" alt="Imagen 2">
         </div>
-
-        <div class="image-container">
-            <img src="ruta/imagen2.jpg" alt="Imagen 2">
-            <p>Texto para la imagen 2</p>
-            <button onclick="alert('Botón 2')">Botón 2</button>
+        <div class="fila">
+            <button onclick="location.href='ver_citas_sanitario.php'">Consultar Agenda</button>
+            <button onclick="location.href='citar_especialista.php'">Citar con especialista</button>
         </div>
-
-        <div class="image-container">
-            <img src="ruta/imagen3.jpg" alt="Imagen 3">
-            <p>Texto para la imagen 3</p>
-            <button onclick="alert('Botón 3')">Botón 3</button>
+        <div class="fila">
+            <img src="../img/auto.png" alt="Imagen 3">
+            <img src="../img/pedir.png" alt="Imagen 4">
         </div>
-
-        <div class="image-container">
-            <img src="ruta/imagen4.jpg" alt="Imagen 4">
-            <p>Texto para la imagen 4</p>
-            <button onclick="alert('Botón 4')">Botón 4</button>
+        <div class="fila">
+            <button onclick="location.href='lista_autodiagnosticos.php'">Aprobar Autodiagnosticos</button>
+            <form action="ver_historial_paciente.php" method="GET">
+                <label for="tarjeta">Paciente</label>
+                <input type="tarjeta" id="tarjeta" name="tarjeta" required>
+                <button type="submit">Ver Historial</button>
+            </form>
         </div>
+    </div>    
     </main>
+
     <footer class="modal-footer">
         <p>Josu te queremos </p>
         <p>
