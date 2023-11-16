@@ -60,16 +60,20 @@ session_start();
                     <label for="medico" class="form-label">Médico de Cabecera Asignado</label>
                     <input name = "medico" type="text" class="form-control" id="medico"  readonly>
                 </div>
+                <div id="c9" class="mb-3 hidden ">
+                    <label for="cole" class="form-label">colegiado Asignado</label>
+                    <input name="cole" type="text" class="form-control" id="cole" readonly>
+                </div>
 
-                <div id = "c8" class="mb-3">
+                <div id = "c10" class="mb-3">
                     <label for="usern" class="form-label">Tarjeta Sanitaria</label>
                     <input name= "username" type="text" class="form-control" id="controlId" placeholder = "ej: AnttonPer">
                 </div>
-                <div id = "c9" class="mb-3">
+                <div id = "c11" class="mb-3">
                     <label for="password" class="form-label">Contraseña</label>
                     <input name = "contra" type="password" class="form-control" id="controlPass">
                 </div>
-                <div id = "c10" class="mb-3">
+                <div id = "c12" class="mb-3">
                     <label for="password" class="form-label">Repetir contraseña</label>
                     <input name = "contra_repetir" type="password" class="form-control" id="controlPassRepeat">
                 </div>                

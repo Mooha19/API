@@ -18,7 +18,7 @@ session_start();
         <h1>Iniciar sesión como Sanitario</h1>
     </div>
         <div class = "contenedorRegistro margenRegistro p-5 bordeRegistro rounded-3">
-            <form name = "inic" action= "server/inicioc_server.php" method="POST">
+            <form name = "inic" action= "server/inicios_server.php" method="POST">
                 <div class="mb-3">
                     <label for="user" class="form-label">Nº de colegiado</label>
                     <input name = "user" type="text" class="form-control" id="controlUser">
