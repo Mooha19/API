@@ -173,10 +173,10 @@ function buscarAmbulatorioYMedico() {
     var ciudadInput = document.getElementById('ciudad');
     var ambulatorioField = document.getElementById('ambulatorio');
     var medicoField = document.getElementById('medico');
-
+    var colegiadoField = document.getElementById('cole');
     // Obtener la ciudad ingresada
     var ciudad = ciudadInput.value;
-
+    
     // Realizar una solicitud al servidor para obtener ambulatorio y médico
     fetch('server/obtener_ambulatorio_medico.php', {
         method: 'POST',
@@ -195,6 +195,7 @@ function buscarAmbulatorioYMedico() {
         // Mostrar ambulatorio y médico en los campos respectivos
         ambulatorioField.value = data.ambulatorio;
         medicoField.value = data.medico;
+        colegiadoField.value = data.cole;
     })
     .catch(error => {
         console.error('Error:', error);
