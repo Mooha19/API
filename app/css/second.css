@@ -18,13 +18,7 @@
     border-radius: 0.25rem;
 }
 
-.ventaja {
-    width: 100px;
-    height: 100%;
-    border-radius: 20px;
-    margin-left: auto;
-    margin-right: auto;
-}
+
 
 .margenRegistro {
     margin-top: 1rem;
@@ -52,37 +46,6 @@
     text-decoration: none;
 }
 
-.imgMapa {
-    width: 100%;
-    height: 100%;
-    border-radius: 40px;
-}
-
-.bordePartidas {
-    border: 2px solid #f8f9fa;
-    border-radius: 5px;
-}
-
-
-.botonAjustes {
-    background-color: #0d6efd;
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 18px;
-    cursor: pointer;
-    height: 95px;
-    margin-bottom: 2rem;
-    border-radius: 10px;
-}
-
-
-.botonAjustes:hover {
-    background-color: #0b5ed7;
-}
 
 .seleccionado {
     background-color: #0b5ed7;
@@ -93,4 +56,96 @@
         padding-right: 3rem;
         padding-left: 3rem;
     }
+}
+
+.contenedor {
+    max-width: 800px;
+    margin: 20px auto;
+}
+.cont{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    padding: 20px;
+    margin-top: 20px;
+    
+}
+
+.option {
+    text-align: center;
+    margin-bottom: 20px;
+    width: 45%; 
+}
+.option img {   
+    width: 100%; 
+    height: 150px; 
+    object-fit: contain; 
+    border-radius: 8px; 
+}
+.button-container button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    background-color: #007bff; 
+    color: #ffffff; 
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.hidden {
+    display: none;
+}
+
+h1,h2 {
+    margin-bottom: 20px;
+    font-size: 2em;
+}
+
+table {
+    width: 80%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    border-radius: 8px;
+    background: #ffffff;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+th {
+    background-color: #2980b9;
+    color: #ffffff;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.action-buttons button {
+    padding: 8px 12px;
+    margin: 4px;
+    background-color: #e74c3c;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.action-buttons button:hover {
+    background-color: #c0392b;
+}
+
+.contenedorRegistro {
+    margin-top: 20px;
+}
+.bg-azul {
+    background-color: #007bff; 
 }

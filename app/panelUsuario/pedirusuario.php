@@ -3,14 +3,15 @@ session_start();
 if ($_SESSION['ult_actividad'] < time() - $_SESSION['expira']) {
     session_unset();    
     session_destroy();
+    header('location: ../index.php');
 } else {
-    $_SESSION['ult_actividad'] = time(); //SETEAMOS NUEVO TIEMPO DE ACTIVIDAD
-    $db = mysqli_connect('localhost', 'admin', 'test', 'medicina');
+    $_SESSION['ult_actividad'] = time(); 
+    $db = mysqli_connect('localhost', 'root', '', 'osakidetza');
     $user = $_SESSION['user'];
     $user_check_query = "SELECT * FROM usuario WHERE tarjeta = '$user';";
     $res = mysqli_query($db, $user_check_query);
     $usuario = mysqli_fetch_assoc($res);
-    //Obtener el medico del usuario    
+      
     $colegiado = $usuario['cabecera'];
     
 
@@ -24,7 +25,7 @@ if ($_SESSION['ult_actividad'] < time() - $_SESSION['expira']) {
     $a = mysqli_fetch_assoc($res2);
     $ambulatorio = $a['ambulatorio'];
 
-    $query = "SELECT colegiado,nombre FROM sanitario WHERE tipo_trabajo = 'ambulatorio' AND trabajo = '$ambulatorio' AND especialidad = 'enfermero' ORDER BY RAND() LIMIT 1;";
+    $query = "SELECT colegiado,nombre FROM sanitario WHERE tipo_trabajo = 'ambulatorio' AND trabajo = '$ambulatorio' AND especialidad = 'enfermeria' ORDER BY RAND() LIMIT 1;";
     $res3 = mysqli_query($db,$query);
     $e = mysqli_fetch_assoc($res3);
     $enfermeron = $e['nombre'];
@@ -52,7 +53,7 @@ if ($_SESSION['ult_actividad'] < time() - $_SESSION['expira']) {
 </head>
 <body>
 <div class= "container text-center mt-5">
-        <h1>Pedir Citas</h1>
+        <h1>Solicitar Cita</h1>
     </div>
     <div id="princ" class = "contenedorRegistro margenRegistro p-5 bordeRegistro rounded-3">
         <form name="reg" action="server/insertar_citas.php" method="POST">
@@ -60,11 +61,11 @@ if ($_SESSION['ult_actividad'] < time() - $_SESSION['expira']) {
                 <label for="tipocita" class="form-label">Tipo de Cita:</label>
                 <select id="tipocita" name="tipocita" onchange="mostrarCampos()">
                     <option value="seleccionar" selected>Seleccionar tipo de cita</option>
-                    <option value="consultap">Consulta presencial</option>
-                    <option value="consultat">Consulta telefónica</option>
-                    <option value="vacu">Vacunación</option>
-                    <option value="anali">Analítica</option>   
-                    <option value="cura">Curas</option>                    
+                    <option value="Consulta presencial">Consulta presencial</option>
+                    <option value="Consulta telefónica">Consulta telefónica</option>
+                    <option value="Vacunas">Vacunación</option>
+                    <option value="Análisis">Analítica</option>   
+                    <option value="Curaciones">Curas</option>                    
                 </select>                    
             </div>
             <div id="c2" class="mb-3 hidden">
@@ -72,7 +73,7 @@ if ($_SESSION['ult_actividad'] < time() - $_SESSION['expira']) {
                 <input name="medic" type="text" class="form-control" id="medic" value="<?php echo $medico; ?>" readonly>
             </div>
             <div id="c3" class="mb-3 hidden">
-                <label for="enfer" class="form-label">Enfermero Asignado</label>
+                <label for="enfer" class="form-label">Enfermer@ Asignado</label>
                 <input name="enfer" type="text" class="form-control" id="enfer" value="<?php echo $enfermeron; ?>" readonly>
 
             </div>
@@ -86,23 +87,27 @@ if ($_SESSION['ult_actividad'] < time() - $_SESSION['expira']) {
             </div>
             <div id="c6" class="mb-3">
                 <label for="date">Fecha:</label>
-                <input type="date" id="date" name="date" min="<?php echo $fechaSiguiente; ?>" requiredrequired oninput="filtrarFechas()">
+                <input type="date" id="date" name="date" min="<?php echo $fechaSiguiente; ?>" required oninput="filtrarFechas()">
             </div>
             <div id="c7" class="mb-3">
                 <label for="hora">Hora:</label>
                 <select id="hora" name="hora" required></select>
+            </div>
+            <div id="c8" class="mb-3 hidden">
+                <label for="tarjeta" class="form-label">tarjeta</label>
+                <input name="tarjeta" type="text" class="form-control" id="tarjeta" value="<?php echo $user; ?>" readonly>
             </div>
             
 
             <?php if (isset($_SESSION['errorUsername'])) : ?>
                 <p class="text-danger" id="errUsername">El código ya está elegido</p>
             <?php endif; ?>               
-            <input type="hidden" name="CSRFToken" value="FQMcSH9G3oSuekSUS5q7fo3ZAciGPJGvA2SAHhrmeTNFMGKG3Raop9WAjKHKc4MKwLXx7dY2wiUbNF5eetFf4">
+            
             <button type="button" class="btn btn-primary" onclick="comprobardatos()">Pedir Cita</button>
         </form>
     </div>
     <div class="contenedorRegistro margenVolver">
-        <a class="textLinks" href="index.php">< Volver a inicio</a>
+        <a class="textLinks" href="usuario.php">< Volver atrás</a>
     </div>
     <footer class="modal-footer">
         <p>&copy; 2023 Sistema de Autodiagnóstico de Síntomas</p>        

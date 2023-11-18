@@ -1,12 +1,12 @@
 <?php
 session_start();
 if ($_SESSION['ult_actividad'] < time() - $_SESSION['expira']) {
-    session_unset();
-    
+    session_unset();    
     session_destroy();
+    header('location: ../index.php');
 } else {
     $_SESSION['ult_actividad'] = time(); //SETEAMOS NUEVO TIEMPO DE ACTIVIDAD
-    $db = mysqli_connect('localhost', 'admin', 'test', 'medicina');
+    $db = mysqli_connect('localhost', 'root', '', 'osakidetza');
     $user = $_SESSION['user'];
     $user_check_query = "SELECT * FROM usuario WHERE tarjeta = '$user';";
     $res = mysqli_query($db, $user_check_query);
@@ -50,35 +50,44 @@ if ($_SESSION['ult_actividad'] < time() - $_SESSION['expira']) {
                     </ul>              
                     <button onclick="location.href='../server/cerrar.php'" type="button" class="btn btn-outline-dark me-2">Cerrar Sesión</button>
                    
-                    <button onclick="location.href='registro.php'" type="button" class="btn btn-dark">Editar Datos</button>
+                    <button onclick="location.href='cambiar_contrasena.php'" type="button" class="btn btn-dark">Cambiar Contraseña</button>
                    
                 </div>
             </div>
         </nav>
     </div>    
     <main>
-    <div class="contenedor">
-        <div class="fila">
-            <img src="../img/ver_citas.jpg" alt="Imagen 1">
-            <img src="../img/pedir.png" alt="Imagen 2">
+    <div class="cont">
+        <div class="option">
+            <img src="../img/miscitas.png" alt="Imagen 1">
+            <div class="button-container">
+                <button onclick="location.href='verusuario.php'">Ver mis citas</button>       
+            </div>
+            
         </div>
-        <div class="fila">
-            <button onclick="location.href='verusuario.php'">Ver mis citas</button>
-            <button onclick="location.href='pedirusuario.php'">Pedir Cita</button>
+        <div class="option">
+            <img src="../img/pedircita.png" alt="Imagen 2">
+            <div class="button-container">
+                <button onclick="location.href='pedirusuario.php'">Pedir Cita</button>
+            </div>
         </div>
-        <div class="fila">
-            <img src="../img/auto.png" alt="Imagen 1">
-            <img src="../img/pedir.png" alt="Imagen 2">
+        <div class="option">
+           <img src="../img/auto.png" alt="Imagen 3"> 
+            <div class="button-container">    
+                <button onclick="location.href='autodiagnostico.php'">Autodiagnostico</button>
+            </div>
         </div>
-        <div class="fila">
-            <button onclick="location.href='autodiagnostico.php'">Autodiagnostico</button>
-            <button onclick="location.href='consultar_autodiagnosticos.php'">Consultar Autodiagnosticos</button>
+        <div class="option">
+            <img src="../img/consultar.png" alt="Imagen 4">
+            <div class="button-container">  
+                <button onclick="location.href='consultar_autodiagnosticos.php'">Consultar Autodiagnosticos</button>
+            </div>        
         </div>
     </div>    
     </main>
 
     <footer class="modal-footer">
-        <p>Josu te queremos </p>
+        <p>&copy; 2023 Sistema de Autodiagnóstico de Síntomas</p>
         <p>
           <a href="#">Arriba</a>
         </p>

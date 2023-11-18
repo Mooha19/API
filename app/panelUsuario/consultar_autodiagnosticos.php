@@ -6,11 +6,11 @@ if ($_SESSION['ult_actividad'] < time() - $_SESSION['expira']) {
     session_destroy();
     header('location: ../index.php');
 } else {
-    $_SESSION['ult_actividad'] = time(); //SETEAMOS NUEVO TIEMPO DE ACTIVIDAD
-    $db = mysqli_connect('localhost', 'admin', 'test', 'medicina');
+    $_SESSION['ult_actividad'] = time(); 
+    $db = mysqli_connect('localhost', 'root', '', 'osakidetza');
     $user = $_SESSION['user'];   
     
-    //Obtener nombre del usuario      
+        
     $consulta = "SELECT * FROM diagnosticos WHERE tipo = 'autodiagnostico' AND tarjeta = '$user'  ";
     $resultado = $db->query($consulta);
     $db->close();
@@ -23,21 +23,41 @@ if ($_SESSION['ult_actividad'] < time() - $_SESSION['expira']) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Consultar Autodiagnosticos</title>
+    <link rel='stylesheet' type='text/css' media='screen' href='../css/main.css'>
+    <link rel='stylesheet' type='text/css' media='screen' href='../css/second.css'>
     
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-    </style>
 </head>
 <body>
+<div class="container">
+        <nav class="navbar navbar-expand-md navbar-light bg-white">
+            <div class="container-fluid">
+                <img  src="../img/logo.png">
+                <a class="navbar-brand" href="#">Osakidetza</a> 
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navi" aria-control="navi" 
+                aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <img  src="../img/DS.png">
+                <div class="collapse navbar-collapse" id="navi">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">Inicio</a>               
+
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">Edición para Ciudadanos </a>              
+
+                        </li>
+                      
+                    </ul>              
+                    <button onclick="location.href='../server/cerrar.php'" type="button" class="btn btn-outline-dark me-2">Cerrar Sesión</button>
+                   
+                    <button onclick="location.href='cambiar_contrasena.php'" type="button" class="btn btn-dark">Cambiar Contraseña</button>
+                   
+                </div>
+            </div>
+        </nav>
+    </div> 
     <h1>Consultar autodiagnosticos </h1>
 
     
@@ -48,6 +68,7 @@ if ($_SESSION['ult_actividad'] < time() - $_SESSION['expira']) {
         <th>Sintomas</th>
         <th>Resultado</th>
         <th>Estado</th>
+        <th>Observaciones</th> 
         
 
     </tr>";
@@ -57,6 +78,7 @@ while ($fila = $resultado->fetch_assoc()) {
             <td>" . $fila['sintomas'] . "</td>
             <td>" . $fila['respuesta'] . "</td>
             <td>" . $fila['estado'] . "</td>
+            <td>" . $fila['comentarios'] . "</td>
             
         </tr>";
         }
@@ -69,7 +91,7 @@ while ($fila = $resultado->fetch_assoc()) {
     }
     ?>
     <div class="contenedorRegistro margenVolver">
-            <a class="textLinks" href="sanitario.php"> < Volver al panel principal</a>
+            <a class="textLinks" href="usuario.php"> < Volver atrás</a>
     </div>
     <footer class="modal-footer">
         <p>&copy; 2023 Sistema de Autodiagnóstico de Síntomas</p>

@@ -4,19 +4,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sintomas = $_POST['sintomas'];
     $respuesta = $_POST['respuesta'];
     $tipo = $_POST['tipo'];
-    $estado = $_POST['estado'];
+    $comentarios = $_POST['comentarios'];
+    $colegiado = $_POST['colegiado'];
 
-    // Realizar la conexión a la base de datos (reemplaza estos valores con los tuyos)
-    $conexion = new mysqli("localhost", "admin", "test", "medicina");
+    
+    $conexion = new mysqli("localhost", "root", "", "osakidetza");
 
-    // Verificar la conexión
+   
     if ($conexion->connect_error) {
         die("Error de conexión: " . $conexion->connect_error);
     }
 
-    // Insertar nueva fila en la base de datos
-    $insertar = "INSERT INTO diagnosticos (tarjeta, sintomas, respuesta, tipo, estado) 
-                 VALUES ('$tarjeta', '$sintomas', '$respuesta', '$tipo', '$estado')";
+    
+    $insertar = "INSERT INTO diagnosticos (tarjeta, sintomas, respuesta, tipo, estado, comentarios, colegiado) 
+                 VALUES ('$tarjeta', '$sintomas', '$respuesta', '$tipo', 'aceptado','$comentarios', $colegiado)";
     
     if ($conexion->query($insertar) === TRUE) {
         header("location: ../ver_historial_paciente.php?tarjeta=$tarjeta");
@@ -25,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Error al añadir la fila: " . $conexion->error;
     }
 
-    // Cerrar la conexión
+    
     $conexion->close();
 }
 ?>

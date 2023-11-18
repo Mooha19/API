@@ -12,7 +12,7 @@ $contra = "";
 $cabecera = "";
 $ambulatorio = "";
 
-$db = mysqli_connect('localhost', 'admin', 'test', 'medicina');
+$db = mysqli_connect('localhost', 'root', '', 'osakidetza');
 $nombre = htmlspecialchars($_POST['nombre']);
 $apellidos = htmlspecialchars($_POST['apellidos']);
 $tel = htmlspecialchars($_POST['tel']);
@@ -26,6 +26,7 @@ $ambulatorio = htmlspecialchars($_POST['ambulatorio']);
 $error = false;
 $nacim = date("Y-m-d", strtotime($fecha));
 
+$nombre_apellidos = $nombre . ' ' . $apellidos;
 $user_check_query = "SELECT * FROM usuario WHERE tarjeta = ?;";
 $stmt = $db -> prepare($user_check_query);
 $stmt -> bind_param("s", $tarjeta);
@@ -41,9 +42,9 @@ if ($usuariotarjeta) {
 }
 
 if (!$error){
-    $query = "INSERT INTO usuario VALUES (?,?,?,?,?,?,?,?,?,?);";
+    $query = "INSERT INTO usuario VALUES (?,?,?,?,?,?,?,?,?);";
     $stmt = $db -> prepare($query);
-    $stmt -> bind_param("sssissssss", $nombre, $apellidos, $tel, $nacim, $provincia, $ciudad, $tarjeta, $contra, $cabecera, $ambulatorio);
+    $stmt -> bind_param("sssssssss", $nombre_apellidos, $tel, $nacim, $provincia, $ciudad, $tarjeta, $contra, $cabecera, $ambulatorio);
     $stmt -> execute();
     $stmt-> close();
     header('location: ../index.php');

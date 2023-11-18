@@ -17,26 +17,26 @@ function mostrarCampos() {
     oftDiv.classList.add("hidden");
     ginDiv.classList.add("hidden");
     
-    // Muestra los campos correspondientes según la opción seleccionada
-    if (tipoCita === "consultap" || tipoCita === "consultat") {
+   
+    if (tipoCita === "Consulta presencial" || tipoCita === "Consulta telefónica") {
         medicDiv.classList.remove("hidden");
            
-    } else if (tipoCita === "vacu" || tipoCita === "cura" || tipoCita === "anali") {
+    } else if (tipoCita === "Vacunas" || tipoCita === "Curaciones" || tipoCita === "Análisis") {
         enfermeroDiv.classList.remove("hidden");
            
-    } else if (tipoCita === "dig" ) {
+    } else if (tipoCita === "Digestivo" ) {
         digDiv.classList.remove("hidden");
         
-    } else if (tipoCita === "car") {
+    } else if (tipoCita === "Cardiología") {
         carDiv.classList.remove("hidden");
         
-    } else if (tipoCita === "trau" ) {
+    } else if (tipoCita === "Traumatología" ) {
         trauDiv.classList.remove("hidden");
         
-    } else if (tipoCita === "oft" ) {
+    } else if (tipoCita === "Oftalmología" ) {
         oftDiv.classList.remove("hidden");
           
-    } else if (tipoCita === "gin" ) {
+    } else if (tipoCita === "Ginecología" ) {
         ginDiv.classList.remove("hidden");
         
     } 
@@ -60,25 +60,25 @@ function obtenerlugar() {
     var lg = datosSanitario.lg;
     var tg = datosSanitario.tg;
 
-    if (tipo === "consultap" || tipo === "consultat") {
+    if (tipo === "Consulta presencial" || tipo === "Consulta telefónica") {
         document.getElementById("tipo").value = tm;
         document.getElementById("lugar").value = lm;
-    } else if (tipo === "vacu" || tipo === "cura" || tipo === "anali") {
+    } else if (tipo === "Vacunas" || tipo === "Curaciones" || tipo === "Análisis") {
         document.getElementById("tipo").value = te;
         document.getElementById("lugar").value = le ;
-    } else if (tipo === "dig") {
+    } else if (tipo === "Digestivo") {
         document.getElementById("tipo").value = td;
         document.getElementById("lugar").value = ld;
-    } else if (tipo === "car") {
+    } else if (tipo === "Cardiología") {
         document.getElementById("tipo").value = tc;
         document.getElementById("lugar").value = lc;
-    } else if (tipo === "trau") {
+    } else if (tipo === "Traumatología") {
         document.getElementById("tipo").value = tt;
         document.getElementById("lugar").value = lt;
-    } else if (tipo === "oft") {
+    } else if (tipo === "Oftalmología") {
         document.getElementById("tipo").value = to;
         document.getElementById("lugar").value = lo;
-    }else if (tipo === "gin") {
+    }else if (tipo === "Ginecología") {
         document.getElementById("tipo").value = tg;
         document.getElementById("lugar").value = lg;
 
@@ -102,11 +102,11 @@ function esDiaHabil(fecha) {
     .then(response => response.json())
     .then(data => {
         console.log('tiene citas:', data.citas);
-        return data.citas; // Devolvemos las citas para que estén disponibles en la cadena de promesas
+        return data.citas; 
     })
     .catch(error => {
         console.error('Error al obtener citas:', error);
-        return []; // Devolvemos un array vacío en caso de error
+        return []; 
     });
   }
   
@@ -120,41 +120,72 @@ function esDiaHabil(fecha) {
     var tipo = tipoInput.value;
   
     var cole;
-    if (tipo === "consultap" || tipo === "consultat") {
+    if (tipo === "Consulta presencial" || tipo === "Consulta telefónica") {
         cole = document.getElementById("cole").value;
-    } else if (tipo === "vacu" || tipo === "cura" || tipo === "anali") {
+    } else if (tipo === "Vacunas" || tipo === "Curaciones" || tipo === "Análisis") {
         cole = document.getElementById("colenfer").value;
-    }else if (tipo === "dig" ) {
+    }else if (tipo === "Digestivo" ) {
         cole = document.getElementById("coledig").value;
-    }else if (tipo === "car" ) {
+    }else if (tipo === "Cardiología" ) {
         cole = document.getElementById("colecar").value;
-    }else if (tipo === "trau" ) {
+    }else if (tipo === "Traumatología" ) {
         cole = document.getElementById("coletrau").value;
-    }else if (tipo === "oft" ) {
+    }else if (tipo === "Oftalmología" ) {
         cole = document.getElementById("coleoft").value;
-    }else if (tipo === "gin" ) {
+    }else if (tipo === "Ginecología" ) {
         cole = document.getElementById("colegin").value;
     }    
    
     if (esDiaHabil(fechaSeleccionada)) {
         var horaInicio = new Date('2023-01-01T08:00:00');
         var horaFin = new Date('2023-01-01T15:00:00');
-        var incremento = 20 * 60 * 1000; // 20 minutos en milisegundos
+        var incremento = 20 * 60 * 1000; 
   
-        // Obtener las citas del médico para la fecha seleccionada
+        
         obtenerCitasMedico(fechaSeleccionada, cole)
           .then(citasMedico => {
               for (var hora = horaInicio; hora <= horaFin; hora.setTime(hora.getTime() + incremento)) {
                   var horaActual = hora.getHours().toString().padStart(2, '0') + ':' + hora.getMinutes().toString().padStart(2, '0') + ':00';
   
-                  // Verificar si la hora actual NO está ocupada (NO está en el array de citas)
+                 
                   if (!citasMedico.includes(horaActual)) {
                       var option = document.createElement('option');
                       option.value = horaActual;
-                      option.text = horaActual.slice(0, 5); // Tomar solo las primeras 5 posiciones (hh:mm)
+                      option.text = horaActual.slice(0, 8); 
                       horaSelect.add(option);
                   }
               }
           });
   }
-  }
+}
+function comprobardatos() { 
+    let id = document.getElementById("controlId").value;
+    let e = false;
+    eliminarHijos(); 
+
+    if (!contieneSoloNumeros(id)) {
+        var er = document.createElement("p")
+        er.setAttribute('class', 'text-danger')
+        var t = document.createTextNode("La tarjeta sanitaria solo puede tener números y de 8 cifras")
+        er.setAttribute('id', 'erId')
+        er.appendChild(t)
+        document.getElementById("c1").appendChild(er)
+        e= true
+    }  
+ 
+    if (!e) document.reg.submit(); 
+}
+function eliminarHijos() {
+    for (var i =1; i< 21; i++) {
+        var c = "c" + i
+        var elem = document.getElementById(c)
+        if (elem.lastChild.nodeName == 'P') {
+            elem.removeChild(elem.lastChild);
+        }
+        
+    }
+}
+function contieneSoloNumeros(str) {
+    return /^[0-9]{8}$/.test(str);}
+
+

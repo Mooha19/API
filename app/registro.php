@@ -41,8 +41,8 @@ session_start();
                     <select id="provincia" name="provincia" onchange="cargarCiudades()">
                         <option value="" disabled selected>Selecciona una provincia</option>
                         <option value="Alava">Álava</option>
-                        <option value="Gipuzkoa">Gipuzkoa</option>
-                        <option value="Bizkaia">Bizkaia</option>                       
+                        <option value="Guipuzcoa">Guipuzkoa</option>
+                        <option value="Vizcaya">Vizcaya</option>                       
                     </select>                    
                 </div>            
                 <div id="c6" class="mb-3">
@@ -67,7 +67,7 @@ session_start();
 
                 <div id = "c10" class="mb-3">
                     <label for="usern" class="form-label">Tarjeta Sanitaria</label>
-                    <input name= "username" type="text" class="form-control" id="controlId" placeholder = "ej: AnttonPer">
+                    <input name= "username" type="text" class="form-control" id="controlId" placeholder = "ej: 00112545">
                 </div>
                 <div id = "c11" class="mb-3">
                     <label for="password" class="form-label">Contraseña</label>
@@ -78,9 +78,9 @@ session_start();
                     <input name = "contra_repetir" type="password" class="form-control" id="controlPassRepeat">
                 </div>                
                 <?php if (isset($_SESSION['errorUsername'])) : ?>
-                    <p class="text-danger" id="errUsername">Elcodigo ya está elegido</p>
+                    <p class="text-danger" id="errUsername">La tarjeta sanitaria ya está creada</p>
                 <?php endif; ?>               
-                <input type="hidden" name="CSRFToken" value="FQMcSH9G3oSuekSUS5q7fo3ZAciGPJGvA2SAHhrmeTNFMGKG3Raop9WAjKHKc4MKwLXx7dY2wiUbNF5eetFf4">
+                
                 <button type="button" class= "btn btn-primary" onclick="comprobardatos()"> Enviar</button>
             </form>
         </div>

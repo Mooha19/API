@@ -1,11 +1,11 @@
 <?php
 session_start();
 
-$db = mysqli_connect('localhost', 'admin', 'test', 'medicina');
+$db = mysqli_connect('localhost', 'root', '', 'osakidetza');
 $user = $_POST['user'];
 $pass = $_POST['pass'];
 
-// Evitar inyección de SQL utilizando consultas preparadas
+
 $user_check_query = "SELECT * FROM sanitario WHERE colegiado = ? AND contra = ?;";
 $stmt = $db->prepare($user_check_query);
 $stmt->bind_param("ss", $user, $pass);
@@ -17,7 +17,7 @@ $stmt->close();
 if ($sanitario) {
     $_SESSION['user'] = $user;
     $_SESSION['success'] = "Hola, $user";
-    $_SESSION['expira'] = 60;
+    $_SESSION['expira'] = 120;
     $_SESSION['ult_actividad'] = time();
     $exito = 1;
     $sesion = "INSERT INTO sesion (clave, exito) VALUES (?, ?)";
@@ -25,7 +25,7 @@ if ($sanitario) {
     $stmt->bind_param("si", $user, $exito);
     $stmt->execute();
     $stmt->close();
-    // Utilizar barras diagonales para rutas
+    
     header('location: ../panelSanitario/sanitario.php');
 } else {
     $_SESSION['errUserContra'] = true;
